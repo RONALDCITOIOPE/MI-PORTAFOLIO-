@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #F0F9FF; color: #3A3A3A; }
+        /* Spotlight Card menú lateral: esquinas rectas, sin bordes redondeados, responsivo */
+/* Menú lateral y Spotlight */
+.sidebar.card-spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: #D0EAF0;
+    color: #3A3A3A;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 10;
+    border-radius: 18px;
+    border: 1.5px solid #CCE4EB;
+    overflow: hidden;
+    box-shadow: 0 4px 24px #A7D8DE44;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --spotlight-color: rgba(167,216,222,0.18);
+    transition: box-shadow 0.3s, background 0.3s;
+}
+.sidebar.card-spotlight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 1;
+}
+.sidebar.card-spotlight:hover::before,
+.sidebar.card-spotlight:focus-within::before {
+    opacity: 0.7;
+}
+.sidebar.card-spotlight a {
+    position: relative;
+    z-index: 2;
+    background: none !important;
+}
+        /* Menú lateral fijo, rectangular, con efecto spotlight en cada ítem */
+    /* Menú lateral fijo, rectangular, con efecto spotlight en cada ítem */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: #D0EAF0;
+    color: #3A3A3A;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 10;
+    border-radius: 18px;
+    border: 1.5px solid #CCE4EB;
+    overflow: hidden;
+    box-shadow: 0 4px 24px #A7D8DE44;
+    transition: box-shadow 0.3s, background 0.3s;
+}
+    /* Enlaces del menú lateral */
+.sidebar a {
+    color: #3A3A3A;
+    text-decoration: none;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    width: 100%;
+    border-radius: 12px;
+    position: relative;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+.sidebar a::before {
+    content: "";
+    position: absolute;
+    left: var(--mx, 50%);
+    top: var(--my, 50%);
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 80%);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+.sidebar a:hover::before,
+.sidebar a:focus::before {
+    opacity: 1;
+}
+.sidebar a .icon {
+    margin-right: 12px;
+    font-size: 1.3em;
+    z-index: 2;
+}
+.sidebar a span, .sidebar a {
+    position: relative;
+    z-index: 2;
+}
+.sidebar a:hover, .sidebar a.active {
+    background: #A7D8DE;
+    box-shadow: 0 2px 12px #87C8D644;
+    color: #3A3A3A;
+}
+@media (max-width: 700px) {
+    .sidebar {
+        /* Estado oculto por defecto */
+        transform: translateX(-100%);
+        opacity: 0;
+        transition: transform 0.35s cubic-bezier(.77,0,.18,1), opacity 0.35s cubic-bezier(.77,0,.18,1);
+        display: flex !important;
+    }
+    #menu-toggle {
+        display: flex !important;
+    }
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    body.menu-open .sidebar {
+        transform: translateX(0);
+        opacity: 1;
+        z-index: 1000;
+        box-shadow: 0 0 0 100vw rgba(0,0,0,0.25);
+        animation: none;
+    }
+    body.menu-open #menu-toggle {
+        display: none !important;
+    }
+}
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* Centra horizontalmente */
+    justify-content: center;  /* Centra verticalmente */
+    min-height: 100vh;
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    box-sizing: border-box;
+    padding: 30px 20px;
+    gap: 40px;                /* Espacio entre secciones */
+}
+        section {
+            display: none;
+            background: #FFFFFF;
+            color: #4F4F4F;
+            padding: 36px 28px;
+            border-radius: 22px;
+            margin-bottom: 36px;
+            box-shadow: 0 6px 32px #A7D8DE33;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #CCE4EB;
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        section.active {
+            display: block;
+            animation: fadeIn 0.7s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        section:hover {
+            box-shadow: 0 12px 40px #87C8D655;
+            transform: translateY(-2px) scale(1.01);
+        }
+        h1, h2, h3 {
+            color: #87C8D6;
+            font-weight: bold;
+        }
+        h2 .icon, h3 .icon {
+            color: #87C8D6;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #A7D8DE;
+            color: #3A3A3A;
+            margin-top: 40px;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px #87C8D633;
+        }
+        .portada-bg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Cambiado de fixed a relative */
+            width: 100%;
+            height: 100vh;
+            background: #D0EAF0; /* Fondo celeste pastel sólido */
+            color: #3A3A3A;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #A7D8DE33;
+        }
+        .portada-icons {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+        .portada-foto {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 25px;
+            border: 6px solid #A7D8DE;
+            box-shadow: 0 4px 24px #A7D8DE44;
+        }
+        .portada-bg h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        .portada-datos {
+            font-size: 1.45rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        /* Flores amarillas animadas */
+        #flores-amarillas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .flor {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.85;
+            animation: flotar 8s linear infinite;
+        }
+        @keyframes flotar {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) scale(0.7); opacity: 0.2; }
+        }
+        /* Luciérnagas */
+        #luciérnagas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            display: block;
+        }
+        /* Estilos para la galería */
+        .rolling-gallery-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            position: relative;
+            background: #D0EAF0;
+            border-radius: 20px;
+            padding: 40px 0;
+            margin: 40px 0;
+            box-shadow: 0 4px 24px #A7D8DE33;
+        }
+        .rolling-gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            perspective: 1200px;
+            background: none;
+        }
+        .gallery-card {
+            width: 260px;
+            height: 180px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px #87C8D655;
+            background: #A7D8DE;
+            transition: transform 0.5s, box-shadow 0.5s;
+            margin: 0 -30px;
+            position: relative;
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 18px;
+        }
+        .gallery-card.left {
+            transform: rotateY(20deg) scale(0.92) translateY(18px);
+            z-index: 1;
+            box-shadow: 0 4px 24px #87C8D644;
+        }
+        .gallery-card.center {
+            transform: scale(1.08);
+            z-index: 2;
+            box-shadow: 0 8px 32px #87C8D655;
+        }
+        .gallery-card.right {
+            transform: rotateY(-20deg) scale(0.92) translateY(18px);
+            z-index: 1;
+            box-shadow: 0 4px 24px #87C8D644;
+        }
+        /* Botones de la galería */
+        button {
+            background: #A7D8DE !important;
+            color: #3A3A3A !important;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 0 18px;
+            box-shadow: 0 2px 8px #87C8D633;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            background: #87C8D6 !important;
+            box-shadow: 0 4px 16px #87C8D655;
+            color: #3A3A3A !important;
+        }
+        /* Spotlight Card estilos */
+        .card-spotlight {
+            position: relative;
+            border-radius: 22px;
+            border: 1.5px solid #CCE4EB;
+            background-color: #A7D8DE;
+            padding: 2rem;
+            overflow: hidden;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            --spotlight-color: rgba(167,216,222,0.25);
+            margin-bottom: 32px;
+            box-shadow: 0 4px 32px #87C8D655;
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .card-spotlight:hover {
+            box-shadow: 0 12px 40px #87C8D655;
+            transform: translateY(-2px) scale(1.01);
+        }
+        .card-spotlight::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .card-spotlight:hover::before,
+        .card-spotlight:focus-within::before {
+            opacity: 0.6;
+        }
+        .card-spotlight h3 {
+            margin-top: 0;
+            color: #3A3A3A;
+        }
+        .card-spotlight p {
+            color: #3A3A3A;
+            line-height: 1.6;
+        }
+        /* Profile Card estilos */
+        .pc-card-wrapper {
+            perspective: 800px;
+            position: absolute;
+            top: 50%;
+            right: 60px;
+            transform: translateY(-50%);
+            z-index: 10;
+            max-width: 410px;
+            min-width: 320px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .pc-card {
+            background: #D0EAF0;
+            border-radius: 2rem;
+            box-shadow: 0 0 0 1.5px #CCE4EB, 0 8px 40px #A7D8DE44;
+            overflow: hidden;
+            position: relative;
+            padding: 0;
+            width: 100%;
+            min-height: 540px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            transition: box-shadow 0.3s;
+        }
+        .pc-inside {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .pc-content.pc-avatar-content {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            background: none;
+        }
+        .pc-avatar-content .avatar {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            filter: grayscale(0.2) brightness(0.9);
+            z-index: 1;
+        }
+        .pc-user-info {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #A7D8DE;
+            border-radius: 18px;
+            padding: 12px 18px;
+            box-shadow: 0 2px 12px #87C8D633;
+            color: #3A3A3A;
+        }
+        .pc-user-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pc-mini-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff2;
+            flex-shrink: 0;
+        }
+        .pc-mini-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .pc-user-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .pc-handle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3A3A3A;
+        }
+        .pc-status {
+            font-size: 1rem;
+            color: #4F4F4F;
+        }
+        .pc-contact-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3A3A3A;
+            background: #87C8D633;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px #87C8D633;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        .pc-contact-btn:hover {
+            background: #fff;
+            color: #3A3A3A;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 0 16px 4px #fff;
+        }
+        }
+        .pc-contact-btn:hover {
+            background: #87C8D6;
+            color: #3A3A3A;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .pc-details {
+            width: 100%;
+            text-align: center;
+            margin-top: 32px;
+            margin-bottom: 24px;
+        }
+        .pc-details h3 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .pc-details p {
+            font-size: 1.3rem;
+            color: #4F4F4F;
+            margin: 0;
+            font-weight: 400;
+        }
+        @media (max-width: 700px) {
+            .sidebar {
+                /* Estado oculto por defecto */
+                transform: translateX(-100%);
+                opacity: 0;
+                transition: transform 0.35s cubic-bezier(.77,0,.18,1), opacity 0.35s cubic-bezier(.77,0,.18,1);
+                display: flex !important;
+            }
+            #menu-toggle {
+                display: flex !important;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            body.menu-open .sidebar {
+                transform: translateX(0);
+                opacity: 1;
+                z-index: 1000;
+                box-shadow: 0 0 0 100vw rgba(0,0,0,0.25);
+                animation: none;
+            }
+            body.menu-open #menu-toggle {
+                display: none !important;
+            }
+        }
+        @media (max-width: 900px) {
+            .gallery-card { width: 160px; height: 110px; }
+            .pc-card-wrapper {
+    position: static;
+    transform: none;
+    margin: 30px auto 0 auto;
+    max-width: 95vw;
+  }
+  .pc-card {
+    min-height: 420px;
+  }
+  .pc-content.pc-avatar-content {
+    height: 200px;
+  }
+  .pc-avatar-content .avatar {
+    height: 200px;
+  }
+        }
+        .portada-bg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Cambiado de fixed a relative */
+            width: 100%;
+            height: 100vh;
+            background: #D0EAF0; /* Fondo celeste pastel sólido */
+            color: #3A3A3A;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #A7D8DE33;
+        }
+        .portada-flex {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 60px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            height: auto;
+        }
+        .pc-card-wrapper {
+            position: static !important; /* Elimina absolute/fixed */
+    transform: none !important;  /* Elimina transform */
+    margin: 0 auto;
+    z-index: 2;
+    max-width: 410px;
+    min-width: 320px;
+    width: 100%;
+    box-sizing: border-box;
+        }
+        @media (max-width: 900px) {
+  .portada-bg {
+    left: 0;
+    width: 100vw;
+    padding: 0;
+  }
+  .portada-flex {
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 10px;
+    height: auto;
+  }
+  .portada-info, .pc-card-wrapper {
+    margin: 0 auto;
+    max-width: 95vw;
+    text-align: center;
+  }
+}
+.blur-text span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-40px);
+  transition:
+    opacity 0.6s cubic-bezier(.77,0,.18,1),
+    filter 0.6s cubic-bezier(.77,0,.18,1),
+    transform 0.6s cubic-bezier(.77,0,.18,1);
+  will-change: opacity, filter, transform;
+}
+.blur-text.visible span {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar card-spotlight" id="sidebar-spotlight">
+        <a href="#" data-section="portada" class="active"><span class="icon">🏠</span>Portada</a>
+        <a href="#" data-section="introduccion"><span class="icon">💡</span>Índice</a>
+        <a href="#" data-section="mapa"><span class="icon">🗺️</span>Presentación del portafolio</a>
+        <a href="#" data-section="evidencias"><span class="icon">📁</span>Aspectos preliminares</a>
+        <a href="#" data-section="bitacora"><span class="icon">📓</span>Evidencias de las actividades del módulo</a>
+        <a href="#" data-section="autoevaluacion"><span class="icon">🧠</span>Reflexión del proceso de aprendizaje</a>
+        <!-- Se elimina el enlace de conclusiones -->
+        <a href="#" data-section="anexos"><span class="icon">📎</span>Otros</a>
+    </div>
+    <div class="main-content">
+        <section id="portada" class="active">
+            <div class="portada-bg">
+                <div class="portada-icons">
+                    <span>📚</span>
+                    <span>✏️</span>
+                    <span>🧩</span>
+                    <span>🎨</span>
+                </div>
+                <canvas id="luciérnagas"></canvas>
+                <div class="portada-flex">
+                  <div class="portada-info">
+                    <h1 class="blur-text" id="portada-titulo">
+  Portafolio Innovador:<br>
+  “Interacciones de calidad y Desarrollo en la Primera infancia I”
+</h1>
+                    <div class="portada-datos">
+                      <b>Estudiante:</b> Cinthya Nicoll Ocas Hoyos<br>
+                      <b>Curso:</b> Práctica e Investigación<br>
+                      <b>Docente:</b> Regina Briones Ciriaco<br>
+                      <b>Fecha:</b> 06 de agosto de 2025
+                    </div>
+                  </div>
+                  <div class="pc-card-wrapper" id="profile-card-portada">
+                    <section class="pc-card">
+                      <div class="pc-inside">
+                        <div class="pc-shine"></div>
+                        <div class="pc-glare"></div>
+                        <div class="pc-content pc-avatar-content">
+                          <img
+                            class="avatar"
+                            src="uno.jpeg"
+                            alt="Cinthya N. Ocas Hoyos"
+                            loading="lazy"
+                          />
+                          <div class="pc-user-info">
+                            <div class="pc-user-details">
+                              <div class="pc-mini-avatar">
+                                <img
+                                  src="uno.jpeg"
+                                  alt="Cinthya mini avatar"
+                                  loading="lazy"
+                                />
+                              </div>
+                              <div class="pc-user-text">
+                                <div class="pc-handle">@itss_cinthyaaaa</div>
+                                <div class="pc-status">Instagram</div>
+                              </div>
+                            </div>
+                            <a class="pc-contact-btn" href="https://www.instagram.com/itss_cinthyaaaa/" target="_blank" title="Ir a Instagram">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                                <radialGradient id="ig-gradient" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.5">
+                                  <stop offset="0%" stop-color="#f9ce34"/>
+                                  <stop offset="50%" stop-color="#ee2a7b"/>
+                                  <stop offset="100%" stop-color="#6228d7"/>
+                                </radialGradient>
+                                <rect width="24" height="24" rx="6" fill="url(#ig-gradient)"/>
+                                <path d="M16.5 7.5h-9A2 2 0 0 0 5.5 9.5v5A2 2 0 0 0 7.5 16.5h9a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2zm-4.5 6.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm4.25-4.75a0.75 0.75 0 1 1-1.5 0 0.75 0.75 0 0 1 1.5 0z" fill="#fff"/>
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="pc-content">
+                          <div class="pc-details">
+                            <h3>Cinthya N. Ocas Hoyos </h3>
+                            <p>Eduacción Inicial</p>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+            </div>
+            <div id="flores-amarillas"></div>
+        </section>
+        <section id="introduccion">
+            <h2><span class="icon">💡</span>Índice</h2>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+            <div class="animated-index pastel">
+              <ul>
+                <li>
+                  <button class="index-btn" data-section="mapa">
+                    <span class="index-icon">➕</span>
+                    3. Presentación del portafolio
+                  </button>
+                  <div class="index-desc">
+                    La importancia del portafolio en el aprendizaje.
+                  </div>
+                </li>
+                <li>
+                  <button class="index-btn" data-section="evidencias">
+                    <span class="index-icon">➕</span>
+                    4. Aspectos preliminares
+                  </button>
+                  <div class="index-desc">
+                    a) Sílabo del módulo.<br>
+                    b) Autorretrato del estudiante.
+                  </div>
+                </li>
+                <li>
+                  <button class="index-btn" data-section="bitacora">
+                    <span class="index-icon">➕</span>
+                    5. Evidencias de las actividades del módulo
+                  </button>
+                  <div class="index-desc">
+                    Documentos, imágenes, trabajos y materiales.<br>
+                    Evidencia del proyecto integrador.
+                  </div>
+                </li>
+                <li>
+                  <button class="index-btn" data-section="autoevaluacion">
+                    <span class="index-icon">➕</span>
+                    6. Reflexión del proceso de aprendizaje
+                  </button>
+                  <div class="index-desc">
+                    Reflexiones personales, autoevaluaciones y coevaluaciones.
+                  </div>
+                </li>
+                <li>
+                  <button class="index-btn" data-section="anexos">
+                    <span class="index-icon">➕</span>
+                    7. Otros
+                  </button>
+                  <div class="index-desc">
+                    Contenidos propuestos por el IESPP o EESP.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <style>
+            .animated-index {
+              font-family: 'Poppins', Arial, sans-serif;
+              background: #F0F9FF;
+              border-radius: 18px;
+              box-shadow: 0 4px 24px #A7D8DE33;
+              padding: 32px 24px;
+              max-width: 540px;
+              margin: 0 auto 40px auto;
+            }
+            .animated-index ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+            }
+            .animated-index li {
+              margin-bottom: 18px;
+              position: relative;
+            }
+            .index-btn {
+              width: 100%;
+              background: #D0EAF0;
+              color: #3A3A3A;
+              border: none;
+              border-radius: 14px;
+              font-size: 1.15rem;
+              font-weight: 600;
+              padding: 18px 22px;
+              text-align: left;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              box-shadow: 0 2px 12px #A7D8DE22;
+              transition: background 0.2s, box-shadow 0.2s;
+              outline: none;
+            }
+            .index-btn:hover, .index-btn.active, .index-btn:focus {
+              background: #A7D8DE;
+              box-shadow: 0 4px 16px #A7D8DE44;
+            }
+            .index-icon {
+              font-size: 1.3em;
+              color: #87C8D6;
+              transition: transform 0.3s;
+              margin-right: 8px;
+            }
+            .index-btn.active .index-icon,
+            .index-btn:focus .index-icon {
+              transform: rotate(45deg) scale(1.2);
+            }
+            .index-desc {
+              background: #fff;
+              color: #3A3A3A;
+              border-radius: 12px;
+              box-shadow: 0 2px 12px #A7D8DE22;
+              padding: 16px 18px;
+              margin-top: 8px;
+              font-size: 1rem;
+              opacity: 0;
+              max-height: 0;
+              overflow: hidden;
+              pointer-events: none;
+              transition: opacity 0.4s, max-height 0.5s, margin-top 0.3s;
+            }
+            li.expanded .index-desc {
+              opacity: 1;
+              max-height: 300px;
+              pointer-events: auto;
+              margin-top: 12px;
+              animation: fadeSlideIn 0.5s;
+            }
+            @keyframes fadeSlideIn {
+              from { opacity: 0; transform: translateY(-10px);}
+              to { opacity: 1; transform: translateY(0);}
+            }
+            @media (max-width: 700px) {
+              .animated-index {
+                padding: 18px 8px;
+                max-width: 98vw;
+              }
+              .index-btn {
+                font-size: 1rem;
+                padding: 14px 12px;
+              }
+              .index-desc {
+                font-size: 0.98rem;
+                padding: 12px 10px;
+              }
+            }
+            </style>
+            <script>
+            document.querySelectorAll('.animated-index .index-btn').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                const li = btn.parentElement;
+                const expanded = li.classList.contains('expanded');
+                document.querySelectorAll('.animated-index li').forEach(l => l.classList.remove('expanded'));
+                document.querySelectorAll('.animated-index .index-btn').forEach(b => b.classList.remove('active'));
+                if (!expanded) {
+                  li.classList.add('expanded');
+                  btn.classList.add('active');
+                }
+                // Activar la sección correspondiente como el menú lateral
+                const sectionId = btn.getAttribute('data-section');
+                if (sectionId) {
+                  // Buscar el enlace del menú lateral con ese data-section y simular el click
+                  const sidebarLink = document.querySelector('.sidebar a[data-section="' + sectionId + '"]');
+                  if (sidebarLink) {
+                    sidebarLink.click();
+                  }
+                }
+              });
+              // Se elimina el comportamiento de mouseenter/mouseleave para que solo funcione con clic
+            });
+            </script>
+        </section>
+        <section id="mapa">
+            <h2><span class="icon">🗺️</span>Presentación del portafolio</h2>
+            <div style="width:100%;max-width:700px;margin:0 auto;">
+              <iframe src="https://publuu.com/flip-book/942994/2069461" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+        <section id="evidencias">
+            <h2><span class="icon">📁</span>Sílabo del módulo y Autorretrato 
+</h2>
+            <div style="width:100%;max-width:700px;margin:0 auto;">
+              <iframe src="https://publuu.com/flip-book/934380/2069401" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+              <div style="height:32px;"></div>
+              <iframe src="https://publuu.com/flip-book/942994/2069435" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+        <section id="bitacora">
+            <h2><span class="icon">📓</span>Evidencias de las actividades del módulo</h2>
+            <div style="width:100%;max-width:700px;margin:0 auto;">
+              <iframe src="https://publuu.com/flip-book/942994/2069473" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+              <div style="height:32px;"></div>
+              <iframe src="https://publuu.com/flip-book/942994/2069474" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+        <section id="autoevaluacion">
+            <h2><span class="icon">🧠</span>Reflexión del proceso de aprendizaje</h2>
+            <div style="width:100%;max-width:700px;margin:0 auto;">
+              <iframe src="https://publuu.com/flip-book/942994/2069502" width="100%" height="480" style="border-radius:16px;border:none;box-shadow:0 4px 24px #A7D8DE33;" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+        <!-- Se elimina la sección de conclusiones -->
+        <section id="anexos">
+            <h2><span class="icon">📎</span>Anexos (opcionales)</h2>
+        </section>
+        <footer>
+        &copy; 2025 Cinthya Nicoll Ocas Hoyos. Todos los derechos reservados.
+    </footer>
+</div>
+<div id="custom-cursor"></div>
+<!-- ...existing code... -->
+    <script>
+        // Íconos para cada sección
+        const iconos = {
+            portada: "🏠",
+            introduccion: "💡",
+            mapa: "🗺️",
+            evidencias: "📁",
+            bitacora: "📓",
+            autoevaluacion: "🧠",
+            conclusiones: "✅",
+            anexos: "📎"
+            <script>
+            document.querySelectorAll('.animated-index .index-btn').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                const li = btn.parentElement;
+                const expanded = li.classList.contains('expanded');
+                document.querySelectorAll('.animated-index li').forEach(l => l.classList.remove('expanded'));
+                document.querySelectorAll('.animated-index .index-btn').forEach(b => b.classList.remove('active'));
+                if (!expanded) {
+                  li.classList.add('expanded');
+                  btn.classList.add('active');
+            <script>
+            document.querySelectorAll('.animated-index .index-btn').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                const li = btn.parentElement;
+                const expanded = li.classList.contains('expanded');
+                document.querySelectorAll('.animated-index li').forEach(l => l.classList.remove('expanded'));
+                document.querySelectorAll('.animated-index .index-btn').forEach(b => b.classList.remove('active'));
+                if (!expanded) {
+                  li.classList.add('expanded');
+                  btn.classList.add('active');
+                }
+                // Activar la sección correspondiente como el menú lateral
+                const sectionId = btn.getAttribute('data-section');
+                if (sectionId) {
+                  // Buscar el enlace del menú lateral con ese data-section y simular el click
+                  const sidebarLink = document.querySelector('.sidebar a[data-section="' + sectionId + '"]');
+                  if (sidebarLink) {
+                    sidebarLink.click();
+                  }
+                }
+              });
+            });
+            </script>
+        });
+    </script>
+    <script>
+        // Mostrar solo la sección seleccionada
+        const links = document.querySelectorAll('.sidebar a');
+        const sections = document.querySelectorAll('.main-content section');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                links.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                const id = this.getAttribute('data-section');
+                sections.forEach(sec => {
+                    sec.classList.remove('active');
+                    if(sec.id === id) sec.classList.add('active');
+                });
+            });
+        });
+    </script>
+    <script>
+// Flores amarillas animadas (doble de grandes y con pétalos SVG)
+function crearFlor() {
+    const flor = document.createElement('div');
+    flor.className = 'flor';
+    flor.style.left = Math.random() * 90 + '%';
+    flor.style.animationDuration = (6 + Math.random() * 4) + 's';
+    flor.innerHTML = `
+        <svg width="80" height="80" viewBox="0 0 80 80">
+            <g>
+                <ellipse cx="40" cy="40" rx="16" ry="32" fill="#ffe259" transform="rotate(0 40 40)"/>
+                <ellipse cx="40" cy="40" rx="16" ry="32" fill="#ffe259" transform="rotate(45 40 40)"/>
+                <ellipse cx="40" cy="40" rx="16" ry="32" fill="#ffe259" transform="rotate(90 40 40)"/>
+                <ellipse cx="40" cy="40" rx="16" ry="32" fill="#ffe259" transform="rotate(135 40 40)"/>
+                <circle cx="40" cy="40" r="14" fill="#ffcf00"/>
+            </g>
+        </svg>
+    `;
+    flor.style.top = '-80px';
+    document.getElementById('flores-amarillas').appendChild(flor);
+
+    setTimeout(() => {
+        flor.remove();
+    }, 10000);
+}
+
+// Solo mostrar flores en la portada
+function activarFloresSiPortadaActiva() {
+    const portada = document.getElementById('portada');
+    const floresDiv = document.getElementById('flores-amarillas');
+    if (portada.classList.contains('active')) {
+        floresDiv.style.display = 'block';
+    } else {
+        floresDiv.style.display = 'none';
+    }
+}
+
+// Crear flores periódicamente solo si la portada está activa
+setInterval(() => {
+    const portada = document.getElementById('portada');
+    if (portada && portada.classList.contains('active')) {
+        crearFlor();
+    }
+}, 700);
+
+// Escuchar cambios de sección para mostrar/ocultar flores
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', activarFloresSiPortadaActiva);
+});
+window.addEventListener('DOMContentLoaded', activarFloresSiPortadaActiva);
+</script>
+<script>
+// Luciérnagas animadas SOLO en portada
+function luciernagasPortada() {
+    const canvas = document.getElementById('luciérnagas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    function resize() {
+        w = canvas.width = canvas.offsetWidth = canvas.parentElement.offsetWidth;
+        h = canvas.height = canvas.offsetHeight = canvas.parentElement.offsetHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const fireflies = Array.from({length: 28}).map(() => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 2 + Math.random() * 3,
+        dx: (Math.random() - 0.5) * 0.7,
+        dy: (Math.random() - 0.5) * 0.7,
+        alpha: 0.5 + Math.random() * 0.5,
+        phase: Math.random() * Math.PI * 2
+    }));
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (const f of fireflies) {
+            ctx.save();
+            ctx.globalAlpha = f.alpha * (0.7 + 0.3 * Math.sin(Date.now()/700 + f.phase));
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+            ctx.fillStyle = "#fffbb0";
+            ctx.shadowColor = "#fffbb0";
+            ctx.shadowBlur = 16;
+            ctx.fill();
+            ctx.restore();
+
+            f.x += f.dx;
+            f.y += f.dy;
+            if (f.x < 0 || f.x > w) f.dx *= -1;
+            if (f.y < 0 || f.y > h) f.dy *= -1;
+        }
+        requestAnimationFrame(draw);
+    }
+    draw();
+}
+window.addEventListener('DOMContentLoaded', luciernagasPortada);
+</script>
+<script>
+// Rolling Gallery funcional en la sección de introducción
+const imagesIntro = [
+  {
+    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+    alt: "Bangkok"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80",
+    alt: "Rice fields"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80",
+    alt: "Nightlife"
+  },
+  // Imágenes educativas agregadas
+  {
+    src: "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=400&q=80",
+    alt: "Niños aprendiendo en clase"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80",
+    alt: "Maestra enseñando a niños"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80",
+    alt: "Libros y aprendizaje"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1510936111840-6cef99faf2a9?auto=format&fit=crop&w=400&q=80",
+    alt: "Educación inicial"
+  }
+];
+let idxIntro = 0;
+function renderGalleryIntro() {
+  const gallery = document.querySelector('#rolling-gallery-intro .rolling-gallery');
+  if (!gallery) return;
+  gallery.innerHTML = `
+    <div class="gallery-card left">
+      <img src="${imagesIntro[(idxIntro+imagesIntro.length-1)%imagesIntro.length].src}" alt="${imagesIntro[(idxIntro+imagesIntro.length-1)%imagesIntro.length].alt}" />
+    </div>
+    <div class="gallery-card center">
+      <img src="${imagesIntro[idxIntro].src}" alt="${imagesIntro[idxIntro].alt}" />
+    </div>
+    <div class="gallery-card right">
+      <img src="${imagesIntro[(idxIntro+1)%imagesIntro.length].src}" alt="${imagesIntro[(idxIntro+1)%imagesIntro.length].alt}" />
+    </div>
+  `;
+}
+document.getElementById('gallery-prev').onclick = function() {
+  idxIntro = (idxIntro + imagesIntro.length - 1) % imagesIntro.length;
+  renderGalleryIntro();
+};
+document.getElementById('gallery-next').onclick = function() {
+  idxIntro = (idxIntro + 1) % imagesIntro.length;
+  renderGalleryIntro();
+};
+renderGalleryIntro();
+</script>
+<script>
+// Spotlight Card efecto mouse
+const spotlight = document.getElementById('spotlight-anexos');
+if (spotlight) {
+  spotlight.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    this.style.setProperty('--mouse-x', `${x}px`);
+    this.style.setProperty('--mouse-y', `${y}px`);
+    this.style.setProperty('--spotlight-color', 'rgba(255,255,255,0.25)');
+  });
+}
+</script>
+<script>
+// Spotlight Card efecto mouse en menú lateral
+const sidebarSpotlight = document.getElementById('sidebar-spotlight');
+if (sidebarSpotlight) {
+  sidebarSpotlight.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    this.style.setProperty('--mouse-x', `${x}px`);
+    this.style.setProperty('--mouse-y', `${y}px`);
+    this.style.setProperty('--spotlight-color', 'rgba(255,255,255,0.18)');
+  });
+}
+</script>
+<script>
+(function() {
+  const wrap = document.getElementById('profile-card-portada');
+  if (!wrap) return;
+  const card = wrap.querySelector('.pc-card');
+  if (!card) return;
+
+  function clamp(value, min = 0, max = 100) {
+    return Math.min(Math.max(value, min), max);
+  }
+  function round(value, precision = 3) {
+    return parseFloat(value.toFixed(precision));
+  }
+  function adjust(value, fromMin, fromMax, toMin, toMax) {
+    return round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
+  }
+
+  function updateCardTransform(offsetX, offsetY) {
+    const width = card.clientWidth;
+    const height = card.clientHeight;
+    const percentX = clamp((100 / width) * offsetX);
+    const percentY = clamp((100 / height) * offsetY);
+    const centerX = percentX - 50;
+    const centerY = percentY - 50;
+
+    wrap.style.setProperty('--pointer-x', `${percentX}%`);
+    wrap.style.setProperty('--pointer-y', `${percentY}%`);
+    wrap.style.setProperty('--background-x', `${adjust(percentX, 0, 100, 35, 65)}%`);
+    wrap.style.setProperty('--background-y', `${adjust(percentY, 0, 100, 35, 65)}%`);
+  }
+
+  card.addEventListener('mousemove', function(e) {
+    const rect = card.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    updateCardTransform(offsetX, offsetY);
+  });
+})();
+</script>
+<script>
+// Animación tipo BlurText para el título de la portada
+function animateBlurText(selector, delay = 80) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  const text = el.innerText;
+  el.innerHTML = '';
+  text.split('').forEach((char, i) => {
+    const span = document.createElement('span');
+  });
+
+  function show() {
+    el.classList.add('visible');
+  }
+
+  // Animar cuando entra en pantalla (IntersectionObserver)
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        show();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  observer.observe(el);
+}
+
+// Ejecutar la animación para el título de la portada
+document.addEventListener('DOMContentLoaded', () => {
+  animateBlurText('#portada-titulo', 20);
+});
+</script>
+<!-- Agrega este script justo antes de </body> -->
+<script>
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        this.style.setProperty('--mx', x + 'px');
+        this.style.setProperty('--my', y + 'px');
+    });
+    link.addEventListener('mouseleave', function() {
+        this.style.removeProperty('--mx');
+        this.style.removeProperty('--my');
+    });
+});
+</script>
+<button id="menu-toggle" aria-label="Abrir menú" style="display:none;">
+  &#9776;
+</button>
+<style>
+#menu-toggle {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1001;
+    background: #ff4e50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0003;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 700px) {
+    #menu-toggle {
+        display: flex !important;
+    }
+    body.menu-open #menu-toggle {
+        display: none !important;
+    }
+}
+</style>
+<script>
+const menuToggle = document.getElementById('menu-toggle');
+menuToggle.addEventListener('click', function() {
+    document.body.classList.add('menu-open');
+});
+document.addEventListener('click', function(e) {
+    if (
+        document.body.classList.contains('menu-open') &&
+        !sidebar.contains(e.target) &&
+        e.target !== menuToggle
+    ) {
+        document.body.classList.remove('menu-open');
+    }
+});
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 700) {
+            document.body.classList.remove('menu-open');
+        }
+    });
+});
+</script>
+<div id="sidebar-handler" style="display:none;" aria-label="Mostrar menú"></div>
+<style>
+.sidebar.oculto {
+    transform: translateX(-200px) !important;
+    opacity: 0.7 !important;
+    pointer-events: none !important;
+    transition: transform 0.35s cubic-bezier(.77,0,.18,1), opacity 0.35s cubic-bezier(.77,0,.18,1);
+}
+#sidebar-handler {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 100vh;
+    background: #ff4e50;
+    z-index: 20;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    display: none;
+    transition: background 0.2s;
+}
+#sidebar-handler:hover {
+    background: #ff7e50;
+}
+@media (max-width: 700px) {
+    #sidebar-handler {
+        display: none !important;
+    }
+}
+@media (min-width: 701px) {
+    #sidebar-handler {
+        display: block;
+    }
+}
+</style>
+<script>
+const sidebarHandler = document.getElementById('sidebar-handler');
+
+// Mostrar/ocultar menú y handler según la sección
+function updateSidebarVisibility(id) {
+    if (id === 'portada') {
+        sidebar.classList.remove('oculto');
+        sidebarHandler.style.display = 'none';
+    } else {
+        sidebar.classList.add('oculto');
+        // Solo mostrar la barrita si NO es móvil
+        if (window.innerWidth > 700) {
+            sidebarHandler.style.display = 'block';
+        } else {
+            sidebarHandler.style.display = 'none';
+        }
+    }
+}
+
+// Al hacer click en los links del menú
+links.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const id = this.getAttribute('data-section');
+        sections.forEach(sec => {
+            sec.classList.remove('active');
+            if(sec.id === id) sec.classList.add('active');
+        });
+        updateSidebarVisibility(id);
+        if (window.innerWidth <= 700) {
+            document.body.classList.remove('menu-open');
+        }
+    });
+});
+
+// Al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    const active = document.querySelector('.sidebar a.active');
+    if (active) {
+        updateSidebarVisibility(active.getAttribute('data-section'));
+    }
+});
+
+// Al hacer click en la barrita, mostrar el menú
+sidebarHandler.addEventListener('click', function() {
+    sidebar.classList.remove('oculto');
+    this.style.display = 'none';
+});
+</script>
+<!-- Solo muestra la animación Spline 3D cuando la sección portada está activa -->
+<div class="spline-bg" id="spline-portada-bg" style="display:none;">
+  <iframe src="https://my.spline.design/molang3dcopy-rq62zHp4uLt4LgPDrLOlyLL2/"
+    frameborder="0"
+    width="100%"
+    height="100%"
+    allow="autoplay; fullscreen"
+    style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; border:0; background:transparent;">
+  </iframe>
+</div>
+<script>
+// Mostrar/Ocultar la animación Spline 3D en la portada
+function updateSplineVisibility() {
+    const portada = document.getElementById('portada');
+    const splineBg = document.getElementById('spline-portada-bg');
+    if (portada.classList.contains('active')) {
+        splineBg.style.display = 'block';
+    } else {
+        splineBg.style.display = 'none';
+    }
+}
+
+// Al hacer click en los links del menú
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 700) {
+            document.body.classList.remove('menu-open');
+        }
+        updateSplineVisibility();
+    });
+});
+
+// Al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    updateSplineVisibility();
+});
+</script>
+<style>
+.spline-bg {
+  display: none !important;
+}
+.portada-bg > *:not(.spline-bg) {
+  position: relative;
+  z-index: 2;
+}
+</style>
+<script>
+function mostrarSplineSoloEnPortada() {
+    const portada = document.getElementById('portada');
+    const spline = document.getElementById('spline-portada-bg');
+    if (!portada || !spline) return;
+    if (portada.classList.contains('active')) {
+        spline.style.display = 'block';
+    } else {
+        spline.style.display = 'none';
+    }
+}
+</body>
+</html>
